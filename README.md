@@ -1,61 +1,59 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://cdn.iahorro.com/images/logo_ia-w.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
 
-## About Laravel
+# TECHNICAL TEST
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Functional requirements:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Creating three endpoints
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### /api/v1/NewOpetarion
 
-## Learning Laravel
+  It will be in charge of receiving, validating and persisting the new operations received by means of a POST call.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+  The calls must contain the following parameters in the body:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    - name => Name of the user of the new operation.
+    - surname1 => First surname of the user of the new operation.
+    - surname2 => Second last name of the user of the new operation.
+    - email => Email of the user of the new operation.  
+    - phone => Phone of the user of the new operation.
+    - provided_capital => Amount of capital to be provided by the user.
+    - total_capital => Total amount of capital that the user will require.
 
-## Laravel Sponsors
+  Example of valid payload
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    {
+    "name": "Fernando",
+    "surname1": "Ariza",
+    "surname2": "Serrano",
+    "email": "example@gmail.com",
+    "phone": "678949898",
+    "provided_capital": 15000,
+    "total_capital": 150000
+    }
 
-### Premium Partners
+  
+#### /api/v1/AssignUserToOperation
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+  The AssignUserToOperation endpoint executes the process that randomly assigns the managers to the new operations. 
 
-## Contributing
+  It does not receive any parameter, when called by patch method, it will execute the **AssignUserToOperation::assignUserToOperation** function.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+  Once the execution is finished, the EndPoint will send a status code 200.
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### /api/v1/GetOperationsList/{user_id}/{dateFrom}/{dateTo}
 
-## Security Vulnerabilities
+  The GetOperationsList endpoint shows the managers a list of the operations assigned to them, provided that the date of creation of the operation is between the parameters dateFrom and dateTo.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+  Must be invoked with the GET method and the parameters (all mandatory) must be sent via the URL.
 
-## License
+  Once the parameters have been validated and the records have been retrieved from the database, the percentage of the user's capital will be calculated.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+  When the information retrieval and calculations are finished, the information will be returned in JSON format.
+
+  Example of valid URL
+
+    http://127.0.0.1:8000/api/v1/GetOperationsList/1/2018-09-19/2022-01-01
+
