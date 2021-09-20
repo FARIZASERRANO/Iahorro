@@ -18,8 +18,8 @@ class CreateClientsTable extends Migration
             $table->string('name');
             $table->string('surname1');
             $table->string('surname2');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('email')->unique();
+            $table->string('phone')->unique();;
             $table->integer('provided_capital');
             $table->integer('total_capital');
             $table->bigInteger('user_id')->nullable();
